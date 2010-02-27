@@ -1,0 +1,7 @@
+The codebase is split into two parts.
+
+The legacy code, written for desktop usage using PyQt4, resides in mathhammer-qt. It is not well organized or well documented, but it serves as the basis for the online code.
+
+Qt4 and the PyQt4 bindings are required to run this, as well as numpy (numeric python by Enthought)
+
+The app engine app is located in the app-engine directory.
