@@ -31,8 +31,11 @@ class MainHandler(webapp.RequestHandler):
     params["D"] = self.request.get_range("D",default=0)
     for check,value in dict(achecks,**dchecks).items():
         value["checked"] = self.request.get(check) == "Y" and "checked" or ""
-    params["achecks"] = achecks
-    params["dchecks"] = dchecks
+        value["id"] = check
+    def sk(x): return x[1]["class"]
+    params["achecks"] = [value for key,value in sorted(achecks.iteritems(),key=sk)]
+    params["dchecks"] = [value for key,value in sorted(dchecks.iteritems(),key=sk)]
+
     self.response.out.write(template.render(path, params))
 
 def main():
