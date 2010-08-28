@@ -1,0 +1,6 @@
+.clear { 
+    height: 1%; 
+}
+.rotate {
+    filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+}

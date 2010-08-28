@@ -1,0 +1,48 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+<script language="Javascript" src="static/Matrix.js"></script>
+<script language="Javascript" src="static/mathhammer.js"></script>
+<!--[if IE]>
+<link rel="stylesheet" href="static/style.ie.css" />
+<![endif]-->
+<link rel="stylesheet" href="static/style.css" />
+</head>
+<body>
+<h2>Mathhammer</h2>
+<em>Use mousewheel to scroll through valid stats.</em>
+<div id="attacker" class="clear">
+	Attacker<br>
+	<div class="float">Weapon Skill<br><input id="W" value="{{W}}"></div>
+	<div class="float">Strength    <br><input id="S" value="{{S}}"></div>
+	<div class="float"># Attacks   <br><input id="A" value="{{A}}"></div>
+	<div class="float">
+        <div class="float">
+            Reroll to hit?<br>
+            Reroll to wound?<br>
+            Poison?<br>
+        </div>
+        <div class="float">
+            <input type="checkbox" id="hitRR" {{hitRR}}><br>
+            <input type="checkbox" id="wndRR" {{wndRR}}><br>
+            <input type="checkbox" id="poisn" {{poisn}}><br>
+        </div>
+	</div>
+</div>
+<br>
+<div id="defender" class="clear">
+	Defender<br>
+	<div class="float">Weapon Skill<br><input id="U" value="{{U}}"></div>
+	<div class="float">Toughness   <br><input id="T" value="{{T}}"></div>
+	<div class="float">Armor Save  <br><input id="R" value="{{R}}"></div>
+	<div class="float">Ward Save   <br><input id="D" value="{{D}}"></div>
+</div>
+<br>
+<div id="results" class="clear"></div>
+<script language="JavaScript">
+setup();
+doMathhammer();
+
+</script> 
+
+
+</body></html>

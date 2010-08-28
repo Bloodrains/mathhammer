@@ -1,0 +1,43 @@
+input {
+	width: 6em;
+}
+input[type=checkbox] {
+	width:auto;
+}
+.float {
+	padding-right:1em;
+	float:left;
+}
+.clear:after {
+	content:".";
+	display: block;
+	height:0;
+	visibility:hidden;
+	clear:left;
+}
+.holder {
+    height:200px;
+    width:.5em;
+    margin-left:-1px;
+    position:relative;
+    border:1px solid black;
+}
+.bar {
+    width:100%;
+    bottom:0px;
+    position:absolute;
+    background-color:#fa0;
+}
+.blue {
+    background-color:#0af;
+}
+.rotate {
+    width:5.5em;
+    height:1em;
+    overflow:hidden;
+    position:absolute;
+    right:-2.0em;
+    top:2em;
+    -webkit-transform: rotate(-90deg); 
+    -moz-transform: rotate(-90deg);
+}
