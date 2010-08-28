@@ -110,25 +110,34 @@ function doMathhammer(event) {
 	var wdsP = 1 - WDprob(D);
 	if(is("hitRR"))
 		hitP = reroll(hitP);
+    else if(is("hitRRs"))
+		hitP = hitP * hitP;
 	if(is("wndRR"))
 		wndP = reroll(wndP);
+    else if(is("wndRRs"))
+        wndP = wndP * wndP;
 	if(is("poisn"))
 		wndP = 1-(1-wndP)*5/6;
+
+    if(is("arsRRs"))
+        arsP = reroll(arsP);
+    else if(is("arsRR"))
+        arsP = arsP * arsP;
 
     var results = calculate(A,hitP,wndP,arsP,wdsP);
 
 	var output = "Results"
+    output +="<br><strong>Expected # of wounds:"+expected(results)+"</strong>";
+    output +="<br><strong>Expected # of wounds/atk:"+expected(results,A)+"</strong>";
     output+= "<div class='clear'>";
 	for(var i=0; i<= A; ++i ) 
 		output+= bar(i,results[i]);
-    output += "</div>Chance of doing exactly X unsaved wounds";
+    output += "</div><em>Chance of doing exactly X unsaved wounds</em><br><br>";
 		
     output+= "<div class='clear'>";
 	for(var i=0; i<= A; ++i ) 
 		output+= bar(i,results.slice(i).sum(),"blue");
-	output +="</div>Chance of doing at least X unsaved wounds";
-    output +="<br><strong>Expected # of wounds:"+expected(results)+"</strong>";
-    output +="<br><strong>Expected # of wounds/atk:"+expected(results,A)+"</strong>";
+	output +="</div><em>Chance of doing at least X unsaved wounds</em>";
 	print_results(output);
 } 
 

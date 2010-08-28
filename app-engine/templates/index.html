@@ -15,17 +15,13 @@
 	<div class="float">Weapon Skill<br><input id="W" value="{{W}}"></div>
 	<div class="float">Strength    <br><input id="S" value="{{S}}"></div>
 	<div class="float"># Attacks   <br><input id="A" value="{{A}}"></div>
-	<div class="float">
+	<div class="float checks">
+    {% for check in achecks.items %}
         <div class="float">
-            Reroll to hit?<br>
-            Reroll to wound?<br>
-            Poison?<br>
+        <input type="checkbox" id="{{check.0}}" {{check.1.checked}}>
+        <label for="{{check.0}}" class="{{check.1.class}}"> {{check.1.txt}}</label>
         </div>
-        <div class="float">
-            <input type="checkbox" id="hitRR" {{hitRR}}><br>
-            <input type="checkbox" id="wndRR" {{wndRR}}><br>
-            <input type="checkbox" id="poisn" {{poisn}}><br>
-        </div>
+    {% endfor %}
 	</div>
 </div>
 <br>
@@ -35,13 +31,20 @@
 	<div class="float">Toughness   <br><input id="T" value="{{T}}"></div>
 	<div class="float">Armor Save  <br><input id="R" value="{{R}}"></div>
 	<div class="float">Ward Save   <br><input id="D" value="{{D}}"></div>
+	<div class="float checks">
+    {% for check in dchecks.items %}
+        <div class="float">
+        <input type="checkbox" id="{{check.0}}" {{check.1.checked}}>
+        <label for="{{check.0}}" class="{{check.1.class}}"> {{check.1.txt}}</label>
+        </div>
+    {% endfor %}
+	</div>
 </div>
 <br>
 <div id="results" class="clear"></div>
 <script language="JavaScript">
 setup();
 doMathhammer();
-
 </script> 
 
 

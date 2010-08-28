@@ -13,6 +13,15 @@ class MainHandler(webapp.RequestHandler):
     path = os.path.join(os.path.dirname(__file__), 'templates')
     path = os.path.join(path, 'index.html')
     params = {}
+    achecks = {}
+    dchecks = {}
+    achecks["hitRR"]  = {"txt":"Reroll failed to-hit","class":"green"}
+    achecks["hitRRs"] = {"txt":"Reroll successful to-hit","class":"red"}
+    achecks["wndRR"]  = {"txt":"Reroll failed to-wound","class":"green"}
+    achecks["wndRRs"] = {"txt":"Reroll successful to-wound","class":"red"}
+    achecks["poisn"]  = {"txt":"Poison","class":"green"}
+    dchecks["arsRRs"] = {"txt":"Reroll successful armor save","class":"green"}
+    dchecks["arsRR"] = {"txt":"Reroll failed armor save","class":"red"}
     params["W"] = self.request.get_range("W",default=3)
     params["U"] = self.request.get_range("U",default=3)
     params["S"] = self.request.get_range("S",default=3)
@@ -20,9 +29,10 @@ class MainHandler(webapp.RequestHandler):
     params["A"] = self.request.get_range("A",default=10)
     params["R"] = self.request.get_range("R",default=0)
     params["D"] = self.request.get_range("D",default=0)
-    params["hitRR"] = self.request.get("hitRR") == "Y" and "checked" or ""
-    params["wndRR"] = self.request.get("wndRR") == "Y" and "checked" or ""
-    params["poisn"] = self.request.get("poisn") == "Y" and "checked" or ""
+    for check,value in dict(achecks,**dchecks).items():
+        value["checked"] = self.request.get(check) == "Y" and "checked" or ""
+    params["achecks"] = achecks
+    params["dchecks"] = dchecks
     self.response.out.write(template.render(path, params))
 
 def main():
