@@ -69,7 +69,11 @@ function get(id) {
 	return parseInt(document.getElementById(id).value);
 }
 
-function results(str) {
+function is(id) {
+    return document.getElementById(id).checked;
+}
+
+function print_results(str) {
 	document.getElementById("results").innerHTML = str;
 }
 
@@ -77,10 +81,11 @@ function percent(x) {
 	return Math.round((x-0)*100)+"%";
 }
 
-function expected(X) {
+function expected(X,A) {
     var exp = 0;
     for(var i=0; i<X.length; i++)
         exp += i*X[i];
+    if(A)return Math.round(1000*exp/A)/1000;
     return Math.round(100*exp)/100;
 }
 
@@ -103,13 +108,31 @@ function doMathhammer(event) {
 	var wndP = STprob(S,T);
 	var arsP = 1 - ASprob(S,R);
 	var wdsP = 1 - WDprob(D);
-	if(document.getElementById("hitRR").checked)
+	if(is("hitRR"))
 		hitP = reroll(hitP);
-	if(document.getElementById("wndRR").checked)
+	if(is("wndRR"))
 		wndP = reroll(wndP);
-	if(document.getElementById("poisn").checked)
+	if(is("poisn"))
 		wndP = 1-(1-wndP)*5/6;
 
+    var results = calculate(A,hitP,wndP,arsP,wdsP);
+
+	var output = "Results"
+    output+= "<div class='clear'>";
+	for(var i=0; i<= A; ++i ) 
+		output+= bar(i,results[i]);
+    output += "</div>Chance of doing exactly X unsaved wounds";
+		
+    output+= "<div class='clear'>";
+	for(var i=0; i<= A; ++i ) 
+		output+= bar(i,results.slice(i).sum(),"blue");
+	output +="</div>Chance of doing at least X unsaved wounds";
+    output +="<br><strong>Expected # of wounds:"+expected(results)+"</strong>";
+    output +="<br><strong>Expected # of wounds/atk:"+expected(results,A)+"</strong>";
+	print_results(output);
+} 
+
+function calculate(A,hitP,wndP,arsP,wdsP) {
 	var hitV = new Matrix(new Array(binrow(A,hitP)));
 	var wndM = binMat(A,wndP);
 	var arsM = binMat(A,arsP);
@@ -119,19 +142,8 @@ function doMathhammer(event) {
 	var arsV = wndV.multiply(arsM)
 	var wdsV = arsV.multiply(wdsM)
 
-	var output = "Results"
-    output+= "<div class='clear'>";
-	for(var i=0; i<= A; ++i ) 
-		output+= bar(i,wdsV[0][i]);
-    output += "</div>Chance of doing exactly X unsaved wounds";
-		
-    output+= "<div class='clear'>";
-	for(var i=0; i<= A; ++i ) 
-		output+= bar(i,wdsV[0].slice(i).sum(),"blue");
-	output +="</div>Chance of doing at least X unsaved wounds";
-    output +="<br><strong>Expected # of wounds:"+expected(wdsV[0])+"</strong>";
-	results(output);
-} 
+    return wdsV[0];
+}
 
 function bar(i,x,cssclass) {
     var output = "<div class='float holder'>";
@@ -184,16 +196,17 @@ function mousewheel(event) {
 
 function setup() {
 	var els = document.getElementsByTagName("input");
-	document.getElementById("hitRR").addEventListener("change",doMathhammer,false);
-	document.getElementById("wndRR").addEventListener("change",doMathhammer,false);
-	document.getElementById("poisn").addEventListener("change",doMathhammer,false);
 	for(i in els)
 		if(els[i].addEventListener) {
+            if(els[i].getAttribute("type") == "checkbox")
+			    els[i].addEventListener("change",doMathhammer,false);
 			els[i].addEventListener("keyup",doMathhammer,false);
 			els[i].addEventListener("mousewheel",mousewheel,false);
 			els[i].addEventListener("DOMMouseScroll",mousewheel,false);
 		}
 		else if(els[i].attachEvent) {
+            if(els[i].getAttribute("type") == "checkbox")
+                els[i].attachEvent("change",doMathhammer);
 			els[i].attachEvent("keyup",doMathhammer);
 			els[i].attachEvent("mousewheel",mousewheel);
 		}
