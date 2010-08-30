@@ -112,6 +112,8 @@ function doMathhammer(event) {
 		hitP = reroll(hitP);
     else if(is("hitRRs"))
 		hitP = hitP * hitP;
+    else if(is("autohit"))
+        hitP = 1.0;
 	if(is("wndRR"))
 		wndP = reroll(wndP);
     else if(is("wndRRs"))
@@ -123,6 +125,11 @@ function doMathhammer(event) {
         arsP = reroll(arsP);
     else if(is("arsRR"))
         arsP = arsP * arsP;
+
+    if(is("wdsRRs"))
+        wdsP = reroll(wdsP);
+    else if(is("wdsRR"))
+        wdsP = wdsP * wdsP;
 
     var results = calculate(A,hitP,wndP,arsP,wdsP);
 
@@ -203,22 +210,24 @@ function mousewheel(event) {
 		return false;
 }
 
+function event(element,eventtype,func) {
+    if(element.addEventListener)
+        element.addEventListener(eventtype,func,false);
+    else 
+        element.attachEvent(eventtype,func);
+}
+
+
 function setup() {
 	var els = document.getElementsByTagName("input");
-	for(i in els)
-		if(els[i].addEventListener) {
-            if(els[i].getAttribute("type") == "checkbox")
-			    els[i].addEventListener("change",doMathhammer,false);
-			els[i].addEventListener("keyup",doMathhammer,false);
-			els[i].addEventListener("mousewheel",mousewheel,false);
-			els[i].addEventListener("DOMMouseScroll",mousewheel,false);
-		}
-		else if(els[i].attachEvent) {
-            if(els[i].getAttribute("type") == "checkbox")
-                els[i].attachEvent("change",doMathhammer);
-			els[i].attachEvent("keyup",doMathhammer);
-			els[i].attachEvent("mousewheel",mousewheel);
-		}
+	for(i in els) {
+        if(! els[i].getAttribute)continue;
+        if(els[i].getAttribute("type") == "checkbox")
+            event(els[i],"change",doMathhammer);
+        event(els[i],"keyup",doMathhammer);
+        event(els[i],"mousewheel",mousewheel);
+        event(els[i],"DOMMouseScroll",mousewheel);
+    }
 }
 
 

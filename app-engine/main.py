@@ -15,6 +15,7 @@ class MainHandler(webapp.RequestHandler):
     params = {}
     achecks = {}
     dchecks = {}
+    achecks["autohit"]  = {"txt":"Automatically hit","class":"green"}
     achecks["hitRR"]  = {"txt":"Reroll failed to-hit","class":"green"}
     achecks["hitRRs"] = {"txt":"Reroll successful to-hit","class":"red"}
     achecks["wndRR"]  = {"txt":"Reroll failed to-wound","class":"green"}
@@ -22,6 +23,8 @@ class MainHandler(webapp.RequestHandler):
     achecks["poisn"]  = {"txt":"Poison","class":"green"}
     dchecks["arsRRs"] = {"txt":"Reroll successful armor save","class":"green"}
     dchecks["arsRR"] = {"txt":"Reroll failed armor save","class":"red"}
+    dchecks["wdsRRs"] = {"txt":"Reroll successful ward save","class":"green"}
+    dchecks["wdsRR"] = {"txt":"Reroll failed ward save","class":"red"}
     params["W"] = self.request.get_range("W",default=3)
     params["U"] = self.request.get_range("U",default=3)
     params["S"] = self.request.get_range("S",default=3)
