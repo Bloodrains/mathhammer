@@ -1,6 +1,6 @@
 factArr = new Array(1,1);
 function fact(f) {
-	if(f>50)return 0;
+	if(f>100)return 0;
     if(factArr[f])return factArr[f];
 	if(f>0){
         var ret = f*fact(f-1);
