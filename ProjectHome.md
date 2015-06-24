@@ -1,0 +1,1 @@
+The project consists of a program for calculating various probability distributions for the results of different battles and scenarios in fantasy tabletop games.
